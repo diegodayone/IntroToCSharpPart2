@@ -15,24 +15,23 @@ namespace IntroToCSharpPart2.Models
             this.MaximumManaPoint = 5;
             this.Range = 1;
         }
-
-        public override void Attack()
-        {
-            Console.WriteLine(Name + " is attacking using this Sword!");
-        }
-
+      
         public override void SpecialAttack()
         {
-            if (this.CurrentManaPoint >= 3)
-            {
-                this.CurrentManaPoint -= 3;
-                Console.WriteLine(Name + " is charging the enemy!");
-            }
-            else
-            {
-                Console.WriteLine("You don't have enough Mana point charge the enemy");
-            }
-
+            throw new NotImplementedException();
         }
+
+        //public override void SpecialAttack()
+        //{
+        //    if (this.CurrentManaPoint >= 3)
+        //    {
+        //        this.CurrentManaPoint -= 3;
+        //        Console.WriteLine(Name + " is charging the enemy!");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("You don't have enough Mana point charge the enemy");
+        //    }
+        //}
     }
 }

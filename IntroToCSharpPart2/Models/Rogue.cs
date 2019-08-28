@@ -16,10 +16,7 @@ namespace IntroToCSharpPart2.Models
             this.Range = 1;
         }
 
-        public override void Attack()
-        {
-            Console.WriteLine(Name + " is attacking using this Sword!");
-        }
+     
 
         public override void SpecialAttack()
         {

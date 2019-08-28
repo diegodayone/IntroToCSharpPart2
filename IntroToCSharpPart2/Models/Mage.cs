@@ -29,10 +29,7 @@ namespace IntroToCSharpPart2.Models
         }
 
         #region Attacks
-        public override void Attack()
-        {
-            Console.WriteLine(Name + " is magically attacking!");
-        }
+
 
         public override void SpecialAttack()
         {

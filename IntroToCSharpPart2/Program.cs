@@ -1,19 +1,96 @@
 ﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using IntroToCSharpPart2.Models;
 
 namespace IntroToCSharpPart2
 {
     class Program
     {
+        //static async Task GetGoogle()
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        var pippo = await client.GetStringAsync("https://www.google.com");
+        //        Console.WriteLine(pippo);
+        //    }
+        //}
+
         //static Hero myHero;
+        static Arena arena;
+
+
+
+
+
         static void Main(string[] args)
         {
+            var mon = new Monster();
+            mon.KillSomebody().Wait();
+
+
+            IDataProvider dataProvider;
+
+            try
+            {
+                dataProvider = new DatabaseDataProvider();
+            }
+            catch
+            {
+                try
+                {
+                    dataProvider = new RemoteStorageProvider();
+                }
+                catch
+                {
+                    dataProvider = new FileSystemProvider();
+                }
+            }
+
+            var students = dataProvider.StudentNames();
+            foreach (var student in students)
+            {
+                Console.WriteLine(student);
+            }
+
+
+
+
+
+
+
+
+
+
+            //GetGoogle().Wait();
+
+            //var myClass = new ICanBeInstantiated();
+            //myClass.CompareString("rushita", "ivaldo");
+
+
+            //MyStringComparer.CompareString("rushita", "rob");
+
+
+            var monster = new Monster();
+            var bard = new Bard("Hansi");
+
+            var livingThingRef = (ILivingThing)bard;
+
+            arena.Fight(bard, monster);
+
+            bard.SpecialAttack();
+
+            var heroKrysz = new Warrior("Krysz");
+            heroKrysz.PrintSomething();
+
+            Hero.PrintSomething2();
+
             try
             {
                 //Open File
                 //Read File
 
-                new Hero("whatever").QuitGame();
+                new Warrior("whatever").QuitGame();
             }
             catch (NullReferenceException nullReference)
             {
@@ -72,7 +149,7 @@ namespace IntroToCSharpPart2
 
                 if (number == '1')
                 {
-                    selectedHero.Attack();
+                    selectedHero.Attack(null);
                 }
                 else if (number == '2')
                 {
