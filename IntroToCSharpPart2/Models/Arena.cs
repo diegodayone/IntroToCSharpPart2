@@ -10,5 +10,22 @@ namespace IntroToCSharpPart2.Models
         {
             attacker.Attack(attacked);
         }
+
+        public void AddFighter(ILivingThing creature)
+        {
+            listOfLivingCreatures[0] = creature;
+        }
+
+        public void RoyalRumble()
+        {
+            foreach(var livingCreature in listOfLivingCreatures)
+            {
+                var randomCreatureToAttack = listOfLivingCreatures[new Random().Next(listOfLivingCreatures.Length)];
+                livingCreature.Attack(randomCreatureToAttack);
+            }
+        }
+
+
+        ILivingThing[] listOfLivingCreatures;
     }
 }
