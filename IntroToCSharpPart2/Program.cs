@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using IntroToCSharpPart2.Models;
+using Newtonsoft.Json;
 
 namespace IntroToCSharpPart2
 {
@@ -22,9 +23,72 @@ namespace IntroToCSharpPart2
 
 
 
+        static async Task GetHarryPotterDetails()
+        {
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("Authorization", "Basic YWRtaW46c3VwZXJzZWNyZXQ=");
+                var result = await httpClient.GetAsync("https://strive-school-testing-apis.herokuapp.com/api/reservation");
+                if (result.IsSuccessStatusCode)
+                {
+                    var stringResult = await result.Content.ReadAsStringAsync();
+
+                    //Possibility #1: create a class for the type you expect to receive
+                    var reservationsWithClass = JsonConvert.DeserializeObject<Reservation[]>(stringResult);
+                    foreach (var resevation in reservationsWithClass)
+                        Console.WriteLine(resevation.name + " --> " + resevation.dateTime.ToString());
+
+                    //Possibility #2: use dynamic but be aware that the compiler is not helping you anymore
+                    dynamic dynamicReservations = JsonConvert.DeserializeObject(stringResult);
+                    foreach(var resevation in dynamicReservations)
+                        Console.WriteLine(resevation.name + " --> " + resevation.dateTime.ToString());
+                }
+                else
+                {
+                    throw new Exception("Something went wrong!");
+                }
+
+                //Creating the object we'll send to the post
+                var res = new Reservation()
+                {
+                     dateTime = DateTime.Now,
+                     name = "Luca & Diego",
+                     numberOfPersons = 2,
+                     phone = "123123123",
+                     smoking = false,
+                     specialRequests = "We'll speak about unity"
+                };
+
+                //Serializing the previously created object to make it available to the httpclient
+                var content = new StringContent(JsonConvert.SerializeObject(res), 
+                    System.Text.Encoding.UTF8, 
+                    "application/json");
+
+                //posting the serialized object to the API
+                var newObject = await httpClient.PostAsync("https://strive-school-testing-apis.herokuapp.com/api/reservation"
+                    ,content);
+
+                //var newObject2 = await httpClient.PostAsync("https://strive-school-testing-apis.herokuapp.com/api/reservation",
+                //    new StringContent(JsonConvert.SerializeObject(new Reservation()
+                //    {
+                //        dateTime = DateTime.Now,
+                //        name = "Luca & Diego",
+                //        numberOfPersons = 2,
+                //        phone = "123123123",
+                //        smoking = false,
+                //        specialRequests = "We'll speak about unity"
+                //    }),
+                //    System.Text.Encoding.UTF8,
+                //    "application/json"));
+            }
+        }
+
 
         static void Main(string[] args)
         {
+            GetHarryPotterDetails().Wait();
+
+
             var mon = new Monster();
             mon.KillSomebody().Wait();
 
