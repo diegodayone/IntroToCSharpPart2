@@ -4,7 +4,7 @@ using System.Text;
 
 namespace M5D3
 {
-    public class Search
+    public class MovieSearchResult
     {
         public string Title { get; set; }
         public int Year { get; set; }
@@ -15,7 +15,7 @@ namespace M5D3
 
     public class SearchResult
     {
-        public List<Search> Search { get; set; }
+        public List<MovieSearchResult> Search { get; set; }
         public string totalResults { get; set; }
         public string Response { get; set; }
     }

@@ -14,16 +14,19 @@ namespace M5D3
             using(var client = new HttpClient())
             {
                 var result = await client.GetStringAsync("http://www.omdbapi.com/?apikey=24ad60e9&i=" + id);
-                dynamic movie = JsonConvert.DeserializeObject(result);
-                return new MediaItem()
-                {
-                     Extra = result,
-                     id = movie.imdbID,
-                     mediaType = MediaType.Video,
-                     image = movie.Poster,
-                     name = movie.Title,
-                     Year = movie.Year
-                };
+                var movie = JsonConvert.DeserializeObject<MovieSearchResult>(result);
+                return MovieToMediaItemConverter.Convert(movie, result);
+
+                //dynamic movie = JsonConvert.DeserializeObject(result);
+                //return new MediaItem()
+                //{
+                //     Extra = result,
+                //     id = movie.imdbID,
+                //     mediaType = MediaType.Video,
+                //     image = movie.Poster,
+                //     name = movie.Title,
+                //     Year = movie.Year
+                //};
             }
         }
 
@@ -41,15 +44,7 @@ namespace M5D3
                 var i = 0; //keeping the count
                 foreach(var searchItem in searchResult.Search) //foreach each search result
                 {
-                    transformedItems[i] = new MediaItem() //we are creating a new Media Item
-                    {
-                        Extra = result,
-                        id = searchItem.imdbID,
-                        mediaType = MediaType.Video,
-                        image = searchItem.Poster,
-                        name = searchItem.Title,
-                        Year = searchItem.Year
-                    };
+                    transformedItems[i] = MovieToMediaItemConverter.Convert(searchItem);
                     i++;//keeping the count
                 }
 
