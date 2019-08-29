@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,16 @@ namespace M5D3
                 var song = JsonConvert.DeserializeObject<SongResponse>(result);
                 return SongToMediaItemConverter.Convert(song);
             }
+        }
+        public void Save(MediaItem[] toSave)
+        {
+            File.WriteAllText("result.json", JsonConvert.SerializeObject(toSave));
+        }
+
+        public MediaItem[] Load()
+        {
+            var json = File.ReadAllText("result.json");
+            return JsonConvert.DeserializeObject<MediaItem[]>(json);
         }
 
         public async Task<MediaItem[]> Search(string query)

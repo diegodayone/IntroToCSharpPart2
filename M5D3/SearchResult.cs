@@ -7,7 +7,16 @@ namespace M5D3
     public class MovieSearchResult
     {
         public string Title { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
+
+        public int IntegerYear
+        {
+            get
+            {
+                return Year.Contains('–') ? int.Parse(Year.Split('–')[0]) : int.Parse(Year);
+            }
+        }
+
         public string imdbID { get; set; }
         public string Type { get; set; }
         public string Poster { get; set; }

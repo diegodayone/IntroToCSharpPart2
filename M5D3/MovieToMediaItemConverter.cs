@@ -14,7 +14,7 @@ namespace M5D3
                 mediaType = MediaType.Video,
                 image = myMovie.Poster,
                 name = myMovie.Title,
-                Year = myMovie.Year,
+                Year = myMovie.IntegerYear,
                 Extra = extra
             };
         }

@@ -12,6 +12,100 @@ namespace M5D3
     {
         static async Task Main(string[] args)
         {
+            //Ex1:
+            //Use the MovieReader class to extract all the avengers movies.
+            //On the list, apply a LINQ filter to obtain only the movies that has been produced in this century
+            //# MindTheYear: some of them could have some "not-immediatly-parsable" Year. Try to convert them.
+            //–
+            //-
+            var movieReader = new MovieReader();
+            var loadedMovies = movieReader.Load();
+
+            //Ex6:
+            //Use Lambda expressions to calculate the average of the release year of a movie
+
+            var average = loadedMovies.Select(x => x.Year).Average();
+
+            //Ex7:
+            //Use lambda expressions to get only the 5th and 6th results when available
+            // loadedMovies.slice(4,2);
+            var av5and6 = loadedMovies.Skip(4).Take(2);
+
+            var avengersMovie = await movieReader.Search("avengers");
+            //movieReader.Save(avengersMovie);
+
+            var avengerAfter2000 = avengersMovie.Where(x => x.Year >= 2000);
+
+            //Ex2:
+            //Use the MovieReader class to extract all the lord of the rings movies.
+            //On the list, apply a LINQ filter to obtain only the items of Type Video and sort them by Year
+            var lotr = await movieReader.Search("lord of the rings");
+            var onlyMovies = lotr.Where(x => x.mediaType == MediaType.Video)
+                                 .OrderByDescending(x => x.Year);
+
+            //OrderByDescending => Z -> A
+            //Order => A => Z
+
+            //Ex3:
+            //Create a console application that allows the user to choose between Movie and Songs and then a query.
+            //The console app will then display the result and every newly entered string will be a filter on the result from the APIs.
+            //The result should, in every case, be sorted alphabetically by Name
+
+            //select between movies and music
+            Console.WriteLine("Type 1 for search Movies, type 2 for search Music");
+            var userSelection = Console.ReadLine();
+
+            //defining an interface reference
+            IMediaReader myMediaReader;
+
+            switch (userSelection)
+            {
+                //assign to the reference a movie reader
+                case "1": myMediaReader = new MovieReader(); break;
+                //assign to the reference a song reader
+                case "2": myMediaReader = new SongReader(); break;
+                //explode
+                default: throw new Exception("Select 1 or 2");
+            }
+
+            //request the user for a query
+            Console.WriteLine("Insert your query");
+            userSelection = Console.ReadLine();
+
+            //use the mediaReader to search the query & print the result
+            var result = await myMediaReader.Search(userSelection);
+            foreach(var singleResult in result)
+                Console.WriteLine(singleResult.name);
+             
+            while (true) //forever
+            {
+                //read a new filter
+                Console.WriteLine("Insert your filter");
+                userSelection = Console.ReadLine();
+
+                //apply the filter to the result of the previous query
+                var toPrint = result.Where(x => x.name.Contains(userSelection))
+                     .OrderBy(x => x.name);
+
+                //print it out
+                foreach (var singleResult in toPrint)
+                    Console.WriteLine(singleResult.name);
+            }
+
+
+        //Ex4:
+        //Add to MediaReader a new Method "Save".
+        //When the method is invoked, the result should be saved as result.json.
+        //Implement the method for both MovieReader and SongReader.
+
+        //Ex5:
+        //Add to MediaReader a new Method "Load".
+        //When the method is invoked, result.json should be loaded inside of object.
+        //Implement the method for both MovieReader and SongReader.
+
+       
+
+
             using (var client = new HttpClient())
             {
                 var myImage = await client.GetByteArrayAsync("http://strive.school/assets/img/Strive-logo_blackbg_nopayoff.png");
@@ -33,7 +127,7 @@ namespace M5D3
                 file.WriteLine("Strive School");
             }
 
-                var listOfFiles = Directory.GetFiles(@"C:\Users\Diego\Desktop\", "*.txt");
+            var listOfFiles = Directory.GetFiles(@"C:\Users\Diego\Desktop\", "*.txt");
             foreach (var line in listOfFiles)
             {
                 Console.WriteLine(line);

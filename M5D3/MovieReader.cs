@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,17 @@ namespace M5D3
                 //     Year = movie.Year
                 //};
             }
+        }
+
+        public MediaItem[] Load()
+        {
+            var json = File.ReadAllText("result.json");
+            return JsonConvert.DeserializeObject<MediaItem[]>(json);
+        }
+
+        public void Save(MediaItem[] toSave)
+        {
+            File.WriteAllText("result.json", JsonConvert.SerializeObject(toSave));
         }
 
         public async Task<MediaItem[]> Search(string query)

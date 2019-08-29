@@ -12,7 +12,10 @@ namespace M5D3
 
         //- GetByID, that receives a string and returns a MediaItem.The method should be async
         Task<MediaItem> GetByID(string id);
-     }
+
+        void Save(MediaItem[] toSave);
+        MediaItem[] Load();
+    }
 
     //abstract class AbsMediaReader : IMediaReader
     //{
