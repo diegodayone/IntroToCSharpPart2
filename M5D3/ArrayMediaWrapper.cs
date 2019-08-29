@@ -22,7 +22,10 @@ namespace M5D3
             //putting the new value in the last position of the new array
             biggerArray[items.Length] = toAdd;
             //replacing previous array with new array
+            //items => *1235421561620689756
             items = biggerArray;
+            //items => *999999999998987
+
             //return the actual position of the new item
             return items.Length - 1;
         }

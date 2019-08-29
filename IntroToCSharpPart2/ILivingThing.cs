@@ -7,6 +7,8 @@ namespace IntroToCSharpPart2
     interface ILivingThing
     {
         void Attack(ILivingThing enemy);
+
+        int HP { get; set; }
     }
 
 

@@ -8,17 +8,79 @@ namespace IntroToCSharpPart2.Models
     abstract class Hero : ILivingThing 
     {
         #region Properties
-        public string Name;
+        public string Name; //this is a field
         public int MaximumHealthPoint;
-        public int CurrentHealthPoint;
+
+        private int currentHealthPoint;
+        public int CurrentHealthPoint
+        {
+            get
+            {
+                return currentHealthPoint;
+            }
+            set
+            {
+                if (value >= 0)
+                    currentHealthPoint = value;
+                else
+                    throw new Exception("You cannot set a negative value for current health point");
+            }
+        }
+
+        public int HP
+        {
+            get
+            {
+                return CurrentHealthPoint;
+            }
+            set
+            {
+                CurrentHealthPoint = value;
+            }
+        }
+
+
+        public int LostHealthPoint
+        {
+            get
+            {
+                return MaximumHealthPoint - CurrentHealthPoint;
+            }
+        }
 
         public int MaximumManaPoint;
         public int CurrentManaPoint;
+
+        public int UsedManaPoint
+        {
+            get
+            {
+                return MaximumManaPoint - CurrentManaPoint;
+            }
+        }
 
         public int Range;
 
         public static int HeroesCreated;
         public DateTime HeroCreationDate;
+
+        public int HeroAge
+        {
+            get
+            {
+                return DateTime.Now.Year - HeroCreationDate.Year;
+            }
+        }
+
+        public string FullName
+        {
+            get
+            {
+                return Name + ", " + GetType().Name +" " + HeroAge + " years old";
+            }
+        }
+
+        public int CurrentLevel { get; private set;  }
         #endregion
 
         #region Constructor
@@ -27,6 +89,7 @@ namespace IntroToCSharpPart2.Models
             Name = name;
             HeroesCreated++;
             HeroCreationDate = DateTime.Now;
+            CurrentLevel = 1;
         }
         #endregion
 

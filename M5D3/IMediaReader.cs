@@ -12,5 +12,14 @@ namespace M5D3
 
         //- GetByID, that receives a string and returns a MediaItem.The method should be async
         Task<MediaItem> GetByID(string id);
-    }
+     }
+
+    //abstract class AbsMediaReader : IMediaReader
+    //{
+    //    //- Search, that receives a query and returns an array of MediaItem.The method should be async
+    //    public abstract Task<MediaItem[]> Search(string query);
+
+    //    //- GetByID, that receives a string and returns a MediaItem.The method should be async
+    //    public abstract Task<MediaItem> GetByID(string id);
+    //}
 }
