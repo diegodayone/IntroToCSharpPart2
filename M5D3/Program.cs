@@ -23,7 +23,6 @@ namespace M5D3
 
             //Ex6:
             //Use Lambda expressions to calculate the average of the release year of a movie
-
             var average = loadedMovies.Select(x => x.Year).Average();
 
             //Ex7:
