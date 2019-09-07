@@ -86,6 +86,16 @@ namespace IntroToCSharpPart2
 
         static void Main(string[] args)
         {
+            var mage = SingleTonSomething.Instance;
+
+            mage.CurrentHealthPoint--;
+
+            var gandalf = SingleTonSomething.Instance;
+            gandalf.CurrentHealthPoint = 10;
+
+            var whateve123r = new Mage();
+            whateve123r.CurrentHealthPoint = 5;
+
             GetHarryPotterDetails().Wait();
 
 
